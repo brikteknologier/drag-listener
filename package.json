@@ -1,0 +1,20 @@
+{
+  "name": "drag-listener",
+  "version": "0.0.0",
+  "description": "listen to and fire a drag event on a dom element",
+  "main": "lib/drag-listener.js",
+  "scripts": {
+    "prepublish": "coffee -o lib/ -c src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/brikteknologier/drag-listener"
+  },
+  "keywords": [
+    "drag",
+    "listener"
+  ],
+  "author": "Jon Packer",
+  "license": "MIT",
+  "gitHead": "fa075910d10744de9a89be2ea75b4a51e0310488"
+}

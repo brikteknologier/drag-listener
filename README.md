@@ -38,8 +38,8 @@ emits the events in the *events* section below.
 ### events
 
 * `dragStart` - emitted when the user initiates a drag (when the handle receives
-  a mousedown event). Passes one argument, a number between 0.0 and 1.0 that 
-  indicates where the element is located at the start of the drag.
+  a mousedown and a mousemove event). Passes one argument, a number between 0.0
+  and 1.0 that indicates where the element is located at the start of the drag.
 * `drag` - emitted when the user drags the element (fired for every mousemove 
   event received after the handle has received a mousedown event, but before it 
   has received a mouseup event). Passes one argument, a number between 0.0 and
@@ -48,3 +48,5 @@ emits the events in the *events* section below.
 * `dragFinish` - emitted when the user finishes a drag (when the handle receives
   a mouseup event). Passes one argument, a number between 0.0 and 1.0 that 
   indicates where the element is located at the end of the drag.
+* `click` - emitted when a mousedown and a mouseup event is received in the space
+  of 500ms, and no mousemove events are received.

@@ -20,7 +20,14 @@ module.exports = (parent, handle, offsetMin, offsetMax) ->
 
     percentOfXVal = (x) -> (x - min) / (max - min)
 
+    startTime = Date.now()
+    hasDragged = false
+
     drag = (dragEvent) ->
+      if !hasDragged
+        emitter.emit('dragStart', percentOfXVal(parent.position().left))
+        hasDragged = true
+
       offsetX = dragEvent.pageX - downEvent.pageX
       currentX = parent.position().left
       potentialX = handleStartX + offsetX
@@ -36,9 +43,11 @@ module.exports = (parent, handle, offsetMin, offsetMax) ->
     complete = ->
       page.off('mousemove', drag)
       page.off('mouseup', complete)
-      emitter.emit('dragFinish', percentOfXVal(parent.position().left))
+      if hasDragged
+        emitter.emit('dragFinish', percentOfXVal(parent.position().left))
+      else if Date.now() - startTime < 500
+        emitter.emit('click')
 
-    emitter.emit('dragStart', percentOfXVal(parent.position().left))
     page.on('mousemove', drag)
     page.on('mouseup', complete)
 

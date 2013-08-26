@@ -28,12 +28,12 @@ emits the events in the *events* section below.
   event below.
 * `handle` (optional) - the handle of the draggable element, this is the thing
   that user clicks on to start dragging. Defaults to `element`.
-* `offsetMin` the minimum bound of the draggable element. Can also be passed
-  as a function that returns a number (the function is called at the start of 
-  each drag to determine the minimum bound for that drag)
-* `offsetMax` the maximum bound of the draggable element. Can also be passed
-  as a function that returns a number (the function is called at the start of 
-  each drag to determine the maximum bound for that drag)
+* `offsetMin` the minimum bound of the draggable element, relative to its parent.
+  Can also be passed as a function that returns a number (the function is called
+  at the start of each drag to determine the minimum bound for that drag)
+* `offsetMax` the maximum bound of the draggable element, relative to its parent.
+  Can also be passed as a function that returns a number (the function is called
+  at the start of each drag to determine the maximum bound for that drag)
 
 ### events
 

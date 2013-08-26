@@ -18,7 +18,7 @@ also expects `$` in the global scope to reference jQuery at runtime.
 
 ## usage
 
-`listen(element, [handle,] offsetMin, offsetMax)`
+`listen(element, [handle,] offsetMin, offsetMax, [opts])`
 
 Start listening for drag events on an element. Returns an EventEmitter that 
 emits the events in the *events* section below.
@@ -34,6 +34,12 @@ emits the events in the *events* section below.
 * `offsetMax` the maximum bound of the draggable element, relative to its parent.
   Can also be passed as a function that returns a number (the function is called
   at the start of each drag to determine the maximum bound for that drag)
+* `opts` (optional) a set of options, specified below
+
+### options
+
+* `includeWidth` if set to true, include the width of the parent when
+  calculating its current position.
 
 ### events
 

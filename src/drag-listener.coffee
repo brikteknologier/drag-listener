@@ -6,6 +6,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     handle = parent
 
   opts ?= {}
+  if not opts.stopPropagation?
+    opts.stopPropagation = true
 
   handle = $(handle)
   parent = $(parent)
@@ -25,6 +27,7 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
   handle.on 'mousedown', (downEvent) ->
     return if isDragging
     downEvent.preventDefault()
+    downEvent.stopPropagation() if opts.stopPropagation
     
     min = if typeof offsetMin is 'function' then offsetMin() else offsetMin
     max = if typeof offsetMax is 'function' then offsetMax() else offsetMax

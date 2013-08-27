@@ -38,8 +38,10 @@ emits the events in the *events* section below.
 
 ### options
 
-* `includeWidth` if set to true, include the width of the parent when
-  calculating its current position.
+* `includeWidth` (default = false) if set to true, include the width of the 
+  parent when calculating its current position.
+* `stopPropagation` (default = true) if set to true, don't propagate the initial
+  mousedown event that initiates a drag
 
 ### events
 

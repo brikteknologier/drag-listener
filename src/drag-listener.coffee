@@ -18,6 +18,9 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       pos += parent.width()
     return pos
 
+  currentPositionRelativeToElement = (event) ->
+    event.pageX - parent.offset().left
+
   handle.on 'mousedown', (downEvent) ->
     handleStartX = currentPosition()
     
@@ -33,7 +36,9 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
 
     drag = (dragEvent) ->
       if !hasDragged
-        emitter.emit('dragStart', percentOfXVal(currentPosition()))
+        position = percentOfXVal(currentPosition())
+        relativePosition = currentPositionRelativeToElement(dragEvent)
+        emitter.emit('dragStart', position, relativePosition)
         hasDragged = true
 
       offsetX = dragEvent.pageX - downEvent.pageX
@@ -46,13 +51,18 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       else if max < potentialX
         return if currentX is max
         potentialX = max
-      emitter.emit('drag', percentOfXVal(potentialX))
 
-    complete = ->
+      position = percentOfXVal(potentialX)
+      relativePosition = currentPositionRelativeToElement(dragEvent)
+      emitter.emit('drag', position, relativePosition)
+
+    complete = (event) ->
       page.off('mousemove', drag)
       page.off('mouseup', complete)
       if hasDragged
-        emitter.emit('dragFinish', percentOfXVal(currentPosition()))
+        position = percentOfXVal(currentPosition())
+        relativePosition = currentPositionRelativeToElement(event)
+        emitter.emit('dragFinish', position, relativePosition)
       else if Date.now() - startTime < 500
         emitter.emit('click')
 

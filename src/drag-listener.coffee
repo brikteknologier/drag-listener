@@ -11,6 +11,7 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
   parent = $(parent)
   page = $('body')
   emitter = new EventEmitter()
+  isDragging = false
 
   currentPosition = ->
     pos = parent.position().left
@@ -22,17 +23,18 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     event.pageX - parent.offset().left
 
   handle.on 'mousedown', (downEvent) ->
-    handleStartX = currentPosition()
+    return if isDragging
+    downEvent.preventDefault()
     
     min = if typeof offsetMin is 'function' then offsetMin() else offsetMin
     max = if typeof offsetMax is 'function' then offsetMax() else offsetMax
 
-    downEvent.preventDefault()
-
     percentOfXVal = (x) -> (x - min) / (max - min)
 
+    handleStartX = currentPosition()
     startTime = Date.now()
     hasDragged = false
+    isDragging = true
 
     drag = (dragEvent) ->
       if !hasDragged
@@ -57,8 +59,10 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       emitter.emit('drag', position, relativePosition)
 
     complete = (event) ->
+      isDragging = false
       page.off('mousemove', drag)
       page.off('mouseup', complete)
+      page.off('mouseout', complete)
       if hasDragged
         position = percentOfXVal(currentPosition())
         relativePosition = currentPositionRelativeToElement(event)
@@ -68,5 +72,6 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
 
     page.on('mousemove', drag)
     page.on('mouseup', complete)
+    page.on('mouseout', complete)
 
   return emitter

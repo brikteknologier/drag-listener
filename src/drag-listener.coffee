@@ -65,7 +65,7 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       isDragging = false
       page.off('mousemove', drag)
       page.off('mouseup', complete)
-      page.off('mouseout', complete)
+      page.off('mouseleave', complete)
       if hasDragged
         position = percentOfXVal(currentPosition())
         relativePosition = currentPositionRelativeToElement(event)
@@ -75,6 +75,6 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
 
     page.on('mousemove', drag)
     page.on('mouseup', complete)
-    page.on('mouseout', complete)
+    page.on('mouseleave', complete)
 
   return emitter

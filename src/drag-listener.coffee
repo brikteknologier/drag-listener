@@ -1,6 +1,7 @@
 EventEmitter = require('events').EventEmitter
 module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
   if typeof handle isnt 'object'
+    opts = offsetMax
     offsetMax = offsetMin
     offsetMin = handle
     handle = parent

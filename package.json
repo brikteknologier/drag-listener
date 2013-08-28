@@ -1,6 +1,6 @@
 {
   "name": "drag-listener",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "listen to and fire a drag event on a dom element",
   "main": "lib/drag-listener.js",
   "scripts": {

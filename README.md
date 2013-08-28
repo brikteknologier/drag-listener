@@ -42,6 +42,9 @@ emits the events in the *events* section below.
   parent when calculating its current position.
 * `stopPropagation` (default = true) if set to true, don't propagate the initial
   mousedown event that initiates a drag
+* `shouldDrag` (default = `function(){return true}`). a function that is called
+  when a drag is initiated, determining if the drag should be ignored. Shall
+  return true or false.
 
 ### events
 

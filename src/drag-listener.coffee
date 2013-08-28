@@ -8,6 +8,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
   opts ?= {}
   if not opts.stopPropagation?
     opts.stopPropagation = true
+  if not opts.shouldDrag or typeof opts.shouldDrag isnt 'function'
+    opts.shouldDrag = -> true
 
   handle = $(handle)
   parent = $(parent)
@@ -25,7 +27,7 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     event.pageX - parent.offset().left
 
   handle.on 'mousedown', (downEvent) ->
-    return if isDragging
+    return if isDragging or !opts.shouldDrag()
     downEvent.preventDefault()
     downEvent.stopPropagation() if opts.stopPropagation
     

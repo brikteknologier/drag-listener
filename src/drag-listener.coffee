@@ -12,6 +12,29 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
   if not opts.shouldDrag or typeof opts.shouldDrag isnt 'function'
     opts.shouldDrag = -> true
 
+  canTouch = !!('ontouchstart' of window)
+  eventName = (action) ->
+    if canTouch
+      switch action
+        when "start" then return "touchstart mousedown"
+        when "move" then return "touchmove mousemove"
+        when "finish" then return "touchcancel mouseup mouseleave touchend"
+        else return undefined
+    else
+      switch action
+        when "start" then return "mousedown"
+        when "move" then return "mousemove"
+        when "finish" then return "mouseup mouseleave"
+        else return undefined
+
+  coordinates = (e) ->
+    if e.originalEvent instanceof MouseEvent
+      return { x: e.pageX, y: e.pageY }
+    else if e.originalEvent instanceof TouchEvent
+      return { x: e.originalEvent?.touches[0]?.pageX, y: e.originalEvent?.touches[0]?.pageY }
+    else
+      return undefined
+
   handle = $(handle)
   parent = $(parent)
   page = $('body')
@@ -25,9 +48,9 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     return pos
 
   currentPositionRelativeToElement = (event) ->
-    event.pageX - parent.offset().left
+    coordinates(event).x - parent.offset().left
 
-  handle.on 'mousedown', (downEvent) ->
+  handle.on eventName('start'), (downEvent) ->
     return if isDragging or !opts.shouldDrag()
     downEvent.preventDefault()
     downEvent.stopPropagation() if opts.stopPropagation
@@ -41,6 +64,7 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     startTime = Date.now()
     hasDragged = false
     isDragging = true
+    downCoords = coordinates(downEvent)
 
     drag = (dragEvent) ->
       if !hasDragged
@@ -49,7 +73,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
         emitter.emit('dragStart', position, relativePosition)
         hasDragged = true
 
-      offsetX = dragEvent.pageX - downEvent.pageX
+      dragCoords = coordinates(dragEvent)
+      offsetX = dragCoords.x - downCoords.x
       currentX = currentPosition()
       potentialX = handleStartX + offsetX
 
@@ -66,9 +91,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
 
     complete = (event) ->
       isDragging = false
-      page.off('mousemove', drag)
-      page.off('mouseup', complete)
-      page.off('mouseleave', complete)
+      page.off(eventName('move'), drag)
+      page.off(eventName('finish'), complete)
       if hasDragged
         position = percentOfXVal(currentPosition())
         relativePosition = currentPositionRelativeToElement(event)
@@ -76,8 +100,7 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       else if Date.now() - startTime < 500
         emitter.emit('click')
 
-    page.on('mousemove', drag)
-    page.on('mouseup', complete)
-    page.on('mouseleave', complete)
+    page.on(eventName('move'), drag)
+    page.on(eventName('finish'), complete)
 
   return emitter

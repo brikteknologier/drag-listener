@@ -1,4 +1,5 @@
 EventEmitter = require('events').EventEmitter
+$ = window.jQuery || require('jquery')
 module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
   if typeof handle isnt 'object'
     opts = offsetMax

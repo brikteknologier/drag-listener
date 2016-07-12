@@ -16,5 +16,8 @@
   ],
   "author": "Jon Packer",
   "license": "MIT",
-  "gitHead": "fa075910d10744de9a89be2ea75b4a51e0310488"
+  "gitHead": "fa075910d10744de9a89be2ea75b4a51e0310488",
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
 }

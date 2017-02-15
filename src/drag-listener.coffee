@@ -12,6 +12,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     opts.stopPropagation = true
   if not opts.shouldDrag or typeof opts.shouldDrag isnt 'function'
     opts.shouldDrag = -> true
+  if not opts.movementThreshold?
+    opts.movementThreshold = 0
 
   canTouch = !!('ontouchstart' of window)
   eventName = (action) ->
@@ -71,6 +73,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       if !hasDragged
         position = percentOfXVal(currentPosition())
         relativePosition = currentPositionRelativeToElement(dragEvent)
+        if relativePosition < opts.movementThreshold
+          return
         emitter.emit('dragStart', position, relativePosition)
         hasDragged = true
 

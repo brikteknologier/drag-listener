@@ -45,6 +45,10 @@ emits the events in the *events* section below.
 * `shouldDrag` (default = `function(){return true}`). a function that is called
   when a drag is initiated, determining if the drag should be ignored. Shall
   return true or false.
+* `movementThreshold` (default = 0). The minimum distance to move before a drag
+  is triggered.
+* `timeThreshold` (default = 100). The minimum time before a drag is triggered
+  (in ms).
 
 ### events
 

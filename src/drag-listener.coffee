@@ -14,6 +14,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
     opts.shouldDrag = -> true
   if not opts.movementThreshold?
     opts.movementThreshold = 0
+  if not opts.timeThreshold?
+    opts.timeThreshold = 100
 
   canTouch = !!('ontouchstart' of window)
   eventName = (action) ->
@@ -74,6 +76,8 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
         position = percentOfXVal(currentPosition())
         relativePosition = currentPositionRelativeToElement(dragEvent)
         if relativePosition < opts.movementThreshold
+          return
+        if Date.now() - startTime < opts.timeThreshold
           return
         emitter.emit('dragStart', position, relativePosition)
         hasDragged = true

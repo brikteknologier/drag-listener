@@ -23,13 +23,13 @@ module.exports = (parent, handle, offsetMin, offsetMax, opts) ->
       switch action
         when "start" then return "touchstart mousedown"
         when "move" then return "touchmove mousemove"
-        when "finish" then return "touchcancel mouseup mouseleave touchend"
+        when "finish" then return "touchcancel mouseup touchend"
         else return undefined
     else
       switch action
         when "start" then return "mousedown"
         when "move" then return "mousemove"
-        when "finish" then return "mouseup mouseleave"
+        when "finish" then return "mouseup"
         else return undefined
 
   coordinates = (e) ->

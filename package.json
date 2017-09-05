@@ -19,5 +19,11 @@
   "gitHead": "fa075910d10744de9a89be2ea75b4a51e0310488",
   "dependencies": {
     "jquery": "^3.1.0"
+  },
+  "devDependencies": {
+    "coffee-loader": "^0.8.0",
+    "coffeescript": "^1.12.7",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.5.5"
   }
 }

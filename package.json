@@ -17,7 +17,7 @@
   "author": "Jon Packer",
   "license": "MIT",
   "gitHead": "fa075910d10744de9a89be2ea75b4a51e0310488",
-  "dependencies": {
+  "peerDependencies": {
     "jquery": "^3.1.0"
   },
   "devDependencies": {
